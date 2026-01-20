@@ -1,4 +1,4 @@
-export enum ProjectStatus {
+export enum ProjectStatusEnum {
 	ACTIVE = 'active',
 	ARCHIVED = 'archived',
 }
@@ -6,12 +6,12 @@ export enum ProjectStatus {
 export type Project = {
 	id: string
 	name: string
-	status: ProjectStatus
+	status: ProjectStatusEnum
 	tenantId: string
 	content: string
 }
 
-export const ProjectStatusMap: Record<ProjectStatus, string> = {
-	[ProjectStatus.ACTIVE]: 'Activo',
-	[ProjectStatus.ARCHIVED]: 'Archivado',
+export const ProjectStatusMap: Record<ProjectStatusEnum, string> = {
+	[ProjectStatusEnum.ACTIVE]: 'Activo',
+	[ProjectStatusEnum.ARCHIVED]: 'Archivado',
 }

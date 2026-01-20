@@ -1,8 +1,8 @@
 import { LinkItem } from '@/components/LinkItem'
+import { ProjectStatus } from '@/components/ProjectStatus'
 import { ProjectsToolBar } from '@/components/ProjectsToolBar'
 import { getAllProjectsByTenant } from '@/services/projects.service'
 import { getOneTenantBySlug } from '@/services/tenants.service'
-import { ProjectStatus, ProjectStatusMap } from '@/types/project.type'
 
 export default async function TenantProjectsPage({
 	params,
@@ -29,12 +29,7 @@ export default async function TenantProjectsPage({
 								title={project.name}
 								containerProps='w-[300px] h-[120px]'
 							>
-								<p className='flex items-center gap-2 text-white/60'>
-									<span
-										className={`inline-block ${project.status === ProjectStatus.ACTIVE ? 'bg-green-500' : 'bg-red-500'} rounded-full size-2`}
-									></span>
-									{ProjectStatusMap[project.status]}
-								</p>
+								<ProjectStatus status={project.status} />
 							</LinkItem>
 						</li>
 					))}
