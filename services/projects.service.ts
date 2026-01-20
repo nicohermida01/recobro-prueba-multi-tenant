@@ -6,9 +6,11 @@ export async function getAllProjectsByTenant(tenantId: string) {
 	)
 }
 
-export async function getOneProjectById(projectId: string) {
+export async function getOneProjectById(projectId: string, tenantId: string) {
 	return await Promise.resolve(
-		PROJECTS_TABLE.find(project => project.id === projectId) || null,
+		PROJECTS_TABLE.find(
+			project => project.id === projectId && project.tenantId === tenantId,
+		) || null,
 	)
 }
 
