@@ -10,15 +10,7 @@ export default async function TenantDashboardPage({
 	const { tenant } = await params
 	const tenantData = await getOneTenantBySlug(tenant)
 
-	if (!tenantData) {
-		return (
-			<div
-				className={`w-full min-h-[calc(100vh-62px)] flex flex-col gap-4 justify-center items-center`}
-			>
-				<h3 className='text-3xl font-bold'>404 - Tenant no encontrado</h3>
-			</div>
-		)
-	}
+	if (!tenantData) return <div>Error - Tenant no encontrado</div>
 
 	const tenantProjectsCount = await getCountProjectsByTenant(tenantData.id)
 
