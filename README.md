@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Recobro - Prueba técnica Multi-Tenant
 
-## Getting Started
+GitHub: https://github.com/nicohermida01/recobro-prueba-multi-tenant
+Deploy: https://dynamic-biscochitos-231f1f.netlify.app/
 
-First, run the development server:
+# Decisiones técnicas clave
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Estructura de carpetas**: La estructura de carpetas sigue una convención para separar las diferentes capas de la aplicación (rutas, componentes, servicios, datos, tipos, etc..). Esto facilita la comprensión y el mantenimiento del código.
+2. **Patrón de diseño Service**: implemente un patrón de diseño Service para manejar las interacciones con la API. Esto permite poder cambiar la fuente de datos en el futuro sin afectar a los componentes que consumen los datos.
+3. **Tipo de datos**: defini los tipos de datos en un archivo separado (`types/project.type.ts`) para mantener la coherencia y facilitar la reutilización en toda la aplicación. Esto permite detectar errores de tipo y tambien permite poder cambiar los tipos de datos en un solo lugar si es necesario.
+4. **Id de tenant en Project**: incluí el `tenantId` en el tipo `Project` para facilitar la gestión de proyectos por tenant y asegurar que cada proyecto está asociado correctamente a un tenant. Me base en la suposición de que cada proyecto pertenece solamente a un tenant, por lo tanto siempre que el proyecto exista, va a estar asociado a un tenant. No agregue una lista de proyectos en el tipo `Tenant` para evitar redundancia y posibles inconsistencias en los datos. Asumi que es posible crear un tenant sin proyectos asociados inicialmente, por lo que una lista de proyectos en el tipo `Tenant` tendria valor null lo cual no es ideal.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Resolución del Multi-Tenant
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+La estructura de la carpeta de ruteo `app/[tenant]/projects/[id]` permite manejar multiples tenants y que cada uno tenga su propio espacio de trabajo independientemente del resto, con la restricción de que el slug "tenant" debe ser unico. De la misma forma, la página de listado de proyectos `app/[tenant]/projects/page.tsx` muestra únicamente los proyectos asociados al tenant actual, filtrando los proyectos por el `tenant` obtenido del parámetro de la ruta. De forma similar funciona la página de detalle de proyecto `app/[tenant]/projects/[id]/page.tsx`, que verifica que el proyecto solicitado pertenece al tenant actual antes de mostrar los detalles del proyecto.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Separación de Server-Components y Client-Components
 
-## Learn More
+La mayor parte de los componentes son Server-Components, lo que permite aprovechar las ventajas de rendimiento y SEO de Next.js. Sin embargo, los componentes que requieren interactividad, como botones, inputs o elementos propios del dom, son Client-Components.
 
-To learn more about Next.js, take a look at the following resources:
+# Mejoras con más tiempo
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Usuarios y autenticacion**: Implementar un sistema de usuarios y autenticacion para gestionar el acceso a los tenants y proyectos.
+2. **Busqueda y filtrado**: Añadir funcionalidades de búsqueda y filtrado en la lista de proyectos para mejorar la experiencia del usuario.
+3. **Base de datos**: integrar una base de datos real para almacenar los datos de tenants y proyectos en lugar de usar datos simulados.
+4. **Tests**: Escribir tests unitarios y de integración para asegurar la funcionalidad del codigo.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Cosas que deje fuera
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Estilos y diseño**: No me centre en el diseño visual ni en los estilos CSS para mantener el enfoque en la funcionalidad. Hice un diseño bien simple y minimalista utilizando TailwindCSS.
+2. **Manejo de errores avanzado**: No implemente un manejo de errores detallado ni mensajes de feedback para el usuario.
+3. **Internacionalización**: No incluí soporte para múltiples idiomas en la aplicación.
