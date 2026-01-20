@@ -10,3 +10,8 @@ export type Project = {
 	tenantId: string
 	content: string
 }
+
+export const ProjectStatusMap: Record<ProjectStatus, string> = {
+	[ProjectStatus.ACTIVE]: 'Activo',
+	[ProjectStatus.ARCHIVED]: 'Archivado',
+}
