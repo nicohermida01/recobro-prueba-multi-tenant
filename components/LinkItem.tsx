@@ -12,7 +12,7 @@ export function LinkItem({ href, title, children, containerProps }: Props) {
 	return (
 		<Link
 			href={href}
-			className={`block border-2 border-slate-500 rounded-lg p-3 hover:scale-105 transition-transform ${containerProps}`}
+			className={`block border-2 border-white/20 rounded-lg p-3 hover:scale-105 hover:border-white/30 transition ${containerProps}`}
 		>
 			<p className='font-bold flex w-full justify-between items-center'>
 				{title} <RightArrowIcon />
